@@ -12,23 +12,26 @@ import {
   ArrowLeftRight,
 } from "lucide-react";
 
-const navItems = [
-  { href: "/", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/warehouses", label: "Warehouses", icon: Warehouse },
-  { href: "/products", label: "Products", icon: Package },
-  { href: "/inventory", label: "Inventory", icon: ClipboardList },
-  { href: "/inventory/transfer", label: "Stock Transfers", icon: ArrowLeftRight },
-  { href: "/audit-logs", label: "Audit Logs", icon: History },
+const allNavItems = [
+  { href: "/", label: "Dashboard", icon: LayoutDashboard, roles: ["admin", "warehouse_manager", "staff"] },
+  { href: "/warehouses", label: "Warehouses", icon: Warehouse, roles: ["admin", "warehouse_manager", "staff"] },
+  { href: "/products", label: "Products", icon: Package, roles: ["admin", "warehouse_manager", "staff"] },
+  { href: "/inventory", label: "Inventory", icon: ClipboardList, roles: ["admin", "warehouse_manager", "staff"] },
+  { href: "/inventory/transfer", label: "Stock Transfers", icon: ArrowLeftRight, roles: ["admin", "warehouse_manager"] },
+  { href: "/audit-logs", label: "Audit Logs", icon: History, roles: ["admin", "warehouse_manager", "staff"] },
 ];
 
 export function Sidebar({
   open,
   onClose,
+  role,
 }: {
   open?: boolean;
   onClose?: () => void;
+  role?: string;
 }) {
   const pathname = usePathname();
+  const navItems = allNavItems.filter((item) => !role || item.roles.includes(role));
 
   return (
     <>

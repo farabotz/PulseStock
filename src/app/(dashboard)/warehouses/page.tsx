@@ -1,10 +1,12 @@
 import { getWarehouses } from "@/features/warehouses/actions/warehouse.actions";
+import { getCurrentUser } from "@/lib/supabase/session";
 import { Warehouse, MapPin, Plus } from "lucide-react";
 import { formatNumber } from "@/lib/utils";
 import Link from "next/link";
 
 export default async function WarehousesPage() {
-  const warehouses = await getWarehouses();
+  const [warehouses, user] = await Promise.all([getWarehouses(), getCurrentUser()]);
+  const canAdd = user.role === "admin";
 
   return (
     <div className="space-y-6">
@@ -15,13 +17,15 @@ export default async function WarehousesPage() {
             Manage your storage locations
           </p>
         </div>
-        <Link
-          href="/warehouses/new"
-          className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-        >
-          <Plus className="h-4 w-4" />
-          Add Warehouse
-        </Link>
+        {canAdd && (
+          <Link
+            href="/warehouses/new"
+            className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+          >
+            <Plus className="h-4 w-4" />
+            Add Warehouse
+          </Link>
+        )}
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">

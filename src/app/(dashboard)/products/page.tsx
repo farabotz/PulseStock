@@ -1,10 +1,12 @@
 import { getProducts } from "@/features/products/actions/product.actions";
+import { getCurrentUser } from "@/lib/supabase/session";
 import { Plus } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
 import Link from "next/link";
 
 export default async function ProductsPage() {
-  const products = await getProducts();
+  const [products, user] = await Promise.all([getProducts(), getCurrentUser()]);
+  const canAdd = user.role !== "staff";
 
   return (
     <div className="space-y-6">
@@ -15,13 +17,15 @@ export default async function ProductsPage() {
             Manage your product catalog and SKUs
           </p>
         </div>
-        <Link
-          href="/products/new"
-          className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-        >
-          <Plus className="h-4 w-4" />
-          Add Product
-        </Link>
+        {canAdd && (
+          <Link
+            href="/products/new"
+            className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+          >
+            <Plus className="h-4 w-4" />
+            Add Product
+          </Link>
+        )}
       </div>
 
       <div className="rounded-lg border bg-card">
