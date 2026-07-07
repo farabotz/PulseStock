@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PulseStock
+
+Multi-Warehouse Inventory & Analytics Dashboard SaaS.
+
+Built with Next.js 16 (App Router), TypeScript, Tailwind CSS, shadcn/ui, Recharts, and Supabase (Auth + PostgreSQL).
+
+## Features
+
+- Role-Based Access Control: Admin, Warehouse Manager, Staff
+- Dashboard KPIs and interactive charts
+- Multi-warehouse CRUD
+- Product/SKU management
+- Stock transfers with audit logging
+- Supabase Auth integration
+
+## Tech Stack
+
+- Framework: Next.js 16 App Router
+- Language: TypeScript (strict)
+- Styling: Tailwind CSS + shadcn/ui
+- Database: Supabase PostgreSQL
+- Auth: Supabase Auth
+- Charts: Recharts
+
+## Live URL
+
+https://pulsestock-6b6zit9ws-farabotz.vercel.app
+
+## Demo Credentials
+
+| Email | Password | Role |
+|-------|----------|------|
+| `admin@pulsestock.com` | `admin123` | Admin |
+| `manager@pulsestock.com` | `manager123` | Warehouse Manager |
+| `staff@pulsestock.com` | `staff123` | Staff |
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Copy `.env.local.example` to `.env.local` and fill in your Supabase credentials:
 
-## Learn More
+```env
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Seeding
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npx tsx src/lib/db/seed.ts
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## License
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT
