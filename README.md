@@ -26,6 +26,8 @@ Built with Next.js 16 (App Router), TypeScript, Tailwind CSS, shadcn/ui, Rechart
 
 https://pulsestock-6b6zit9ws-farabotz.vercel.app
 
+> Auto-deployed from GitHub via Vercel Git Integration. Every push to `main` triggers a new production deployment.
+
 ## Demo Credentials
 
 | Email | Password | Role |
