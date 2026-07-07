@@ -80,7 +80,7 @@ export interface SupabaseProductRow {
   sku: string;
   name: string;
   category_id: string;
-  categories: { name: string }[] | null;
+  categories: { name: string } | null;
   price: string | number;
   critical_stock_threshold: number;
   created_at: string;
@@ -90,17 +90,17 @@ export interface SupabaseInventoryRow {
   id: string;
   product_id: string;
   warehouse_id: string;
-  warehouses: { name: string }[] | null;
-  products: { name: string; sku: string }[] | null;
+  warehouses: { name: string } | null;
+  products: { name: string; sku: string } | null;
   quantity: number;
 }
 
 export interface SupabaseTransferRow {
   id: string;
   product_id: string;
-  products: { name: string }[] | null;
-  from_warehouse: { name: string }[] | null;
-  to_warehouse: { name: string }[] | null;
+  products: { name: string } | null;
+  from_warehouse: { name: string } | null;
+  to_warehouse: { name: string } | null;
   quantity: number;
   transfer_type: string;
   notes: string | null;
@@ -110,7 +110,7 @@ export interface SupabaseTransferRow {
 export interface SupabaseAuditRow {
   id: string;
   user_id: string;
-  users: { name: string }[] | null;
+  users: { name: string } | null;
   action: string;
   entity_type: string;
   entity_id: string | null;

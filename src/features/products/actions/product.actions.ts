@@ -3,7 +3,6 @@
 import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/supabase/session";
-import type { SupabaseProductRow } from "@/types";
 
 export async function getProducts() {
   const supabase = createAdminClient();
@@ -23,15 +22,15 @@ export async function getProducts() {
 
   if (error) throw new Error(error.message);
 
-  return (data ?? []).map((p: SupabaseProductRow) => ({
-    id: p.id,
-    sku: p.sku,
-    name: p.name,
-    categoryId: p.category_id,
-    categoryName: p.categories?.[0]?.name ?? "",
-    price: p.price,
-    criticalStockThreshold: p.critical_stock_threshold,
-    createdAt: p.created_at,
+  return (data ?? []).map((p) => ({
+    id: p.id as string,
+    sku: p.sku as string,
+    name: p.name as string,
+    categoryId: p.category_id as string,
+    categoryName: (p.categories as unknown as { name: string } | null)?.name ?? "",
+    price: p.price as string | number,
+    criticalStockThreshold: p.critical_stock_threshold as number,
+    createdAt: p.created_at as string,
   }));
 }
 
@@ -56,7 +55,7 @@ export async function getProductById(id: string) {
 
   if (levelsError) throw new Error(levelsError.message);
 
-  return { ...product, categoryName: product.categories?.[0]?.name, inventory: levels ?? [] };
+  return { ...product, categoryName: (product.categories as unknown as { name: string } | null)?.name, inventory: levels ?? [] };
 }
 
 export async function createProduct(formData: FormData) {

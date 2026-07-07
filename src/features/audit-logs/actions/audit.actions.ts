@@ -1,7 +1,6 @@
 "use server";
 
 import { createAdminClient } from "@/lib/supabase/admin";
-import type { SupabaseAuditRow } from "@/types";
 
 export async function getAuditLogs() {
   const supabase = createAdminClient();
@@ -22,15 +21,15 @@ export async function getAuditLogs() {
 
   if (error) throw new Error(error.message);
 
-  return (data ?? []).map((row: SupabaseAuditRow) => ({
-    id: row.id,
-    userId: row.user_id,
-    userName: row.users?.[0]?.name ?? "",
-    action: row.action,
-    entityType: row.entity_type,
-    entityId: row.entity_id,
-    beforeValue: row.before_value,
-    afterValue: row.after_value,
-    createdAt: row.created_at,
+  return (data ?? []).map((row) => ({
+    id: row.id as string,
+    userId: row.user_id as string,
+    userName: (row.users as unknown as { name: string } | null)?.name ?? "",
+    action: row.action as string,
+    entityType: row.entity_type as string,
+    entityId: row.entity_id as string | null,
+    beforeValue: row.before_value as Record<string, unknown> | null,
+    afterValue: row.after_value as Record<string, unknown> | null,
+    createdAt: row.created_at as string,
   }));
 }

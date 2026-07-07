@@ -3,7 +3,6 @@
 import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/supabase/session";
-import type { SupabaseInventoryRow, SupabaseTransferRow } from "@/types";
 
 export async function getInventoryLevels() {
   const supabase = createAdminClient();
@@ -22,14 +21,14 @@ export async function getInventoryLevels() {
 
   if (error) throw new Error(error.message);
 
-  return (data ?? []).map((row: SupabaseInventoryRow) => ({
-    id: row.id,
-    productId: row.product_id,
-    warehouseId: row.warehouse_id,
-    warehouseName: row.warehouses?.[0]?.name ?? "",
-    productName: row.products?.[0]?.name ?? "",
-    sku: row.products?.[0]?.sku ?? "",
-    quantity: row.quantity,
+  return (data ?? []).map((row) => ({
+    id: row.id as string,
+    productId: row.product_id as string,
+    warehouseId: row.warehouse_id as string,
+    warehouseName: (row.warehouses as unknown as { name: string } | null)?.name ?? "",
+    productName: (row.products as unknown as { name: string; sku: string } | null)?.name ?? "",
+    sku: (row.products as unknown as { name: string; sku: string } | null)?.sku ?? "",
+    quantity: row.quantity as number,
   }));
 }
 
@@ -66,16 +65,16 @@ export async function getStockTransferHistory() {
 
   if (error) throw new Error(error.message);
 
-  return (data ?? []).map((row: SupabaseTransferRow) => ({
-    id: row.id,
-    productId: row.product_id,
-    productName: row.products?.[0]?.name ?? "",
-    fromWarehouse: row.from_warehouse?.[0]?.name ?? "",
-    toWarehouse: row.to_warehouse?.[0]?.name ?? "",
-    quantity: row.quantity,
-    transferType: row.transfer_type,
-    notes: row.notes,
-    createdAt: row.created_at,
+  return (data ?? []).map((row) => ({
+    id: row.id as string,
+    productId: row.product_id as string,
+    productName: (row.products as unknown as { name: string } | null)?.name ?? "",
+    fromWarehouse: (row.from_warehouse as unknown as { name: string } | null)?.name ?? "",
+    toWarehouse: (row.to_warehouse as unknown as { name: string } | null)?.name ?? "",
+    quantity: row.quantity as number,
+    transferType: row.transfer_type as string,
+    notes: row.notes as string | null,
+    createdAt: row.created_at as string,
   }));
 }
 
